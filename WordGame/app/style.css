@@ -1,0 +1,11 @@
+.startButtons {
+    font-size: 40px;
+    padding: 1.5rem
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: space-evenly;
+    max-width: 100%;
+    margin-top: 150px;
+}
