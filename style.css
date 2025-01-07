@@ -1,0 +1,88 @@
+.titles {
+    display: flex;
+    flex-direction: row;
+    color: black;
+    justify-content: space-between;
+    margin-right: 60px;
+    margin-left: 60px;
+}
+
+#timer {
+    display: flex;
+    justify-content: center;
+}
+
+.playingcontainer {
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    /* 3 columns */
+    grid-template-rows: repeat(5, 100px);
+    /* 5 rows */
+    grid-gap: 10px;
+    justify-content: center;
+    align-items: start;
+    /* Align items at the top of the container */
+    height: 100vh;
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    background-color: #3498db;
+    /* Blue color */
+}
+
+/* Place the first 5 squares in the first column */
+.playingcontainer .square:nth-child(-n+5) {
+    grid-column: 1;
+    /* Place in the first column */
+}
+
+/* Place the next 5 squares in the second column */
+.playingcontainer .square:nth-child(n+6):nth-child(-n+10) {
+    grid-column: 2;
+    /* Place in the second column */
+}
+
+/* Place the last 3 squares in the third column */
+.playingcontainer .square:nth-child(n+11) {
+    grid-column: 3;
+    /* Place in the third column */
+}
+
+.letters {
+    min-height: 500px;
+}
+
+.box {
+    border: 3px;
+    border-color: black;
+    height: 35px;
+    width: 35px;
+}
+
+.inputboxcontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 0;
+}
+
+.inputboxcontainer>button {
+    width: 75px;
+    height: 35px;
+    background-color: black;
+    border-radius: 8px;
+    color: #ccc;
+}
+
+#inputbox {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 300px;
+    box-sizing: border-box;
+}
