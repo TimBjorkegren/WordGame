@@ -1,6 +1,9 @@
 .startButtons {
     font-size: 40px;
-    padding: 1.5rem
+    padding: 1.5rem;
+    border: 0;
+    font-weight:bold;
+    width: 200px;
 }
 
 .buttonsContainer {
