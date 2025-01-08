@@ -1,15 +1,16 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using app;
+using Npgsql;
 
 string clientId;
 HttpContent context;
 var app = WebApplication.CreateBuilder(args);
 
-public void BakeCookie()
+void BakeCookie()
 {
     clientId = GenerateUniqueClientId();
-    context.Response.C
+    context.Response.C;
+    Console.WriteLine(clientId);
 }
 
 static string GenerateUniqueClientId()
