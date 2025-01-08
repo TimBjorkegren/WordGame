@@ -12,6 +12,18 @@
     justify-content: center;
 }
 
+.wrapper > .players {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    width: 100%;
+    margin-bottom: auto;
+}
+
+.wrapper > .players > h2 {
+    margin: 0;
+}
+
 .wrapper {
     display: grid;
     place-items: center;
