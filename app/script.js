@@ -31,4 +31,21 @@ document.addEventListener('DOMContentLoaded', function () {
             countDownElement.textContent = 'Time is up!';
         }
     }, 1000);
+
+
+    function displayWordInSquare(squareId) {
+        fetch('http://localhost:5500/api/words/random') // Använd din faktiska API-URL
+            .then(response => response.json())
+            .then(data => {
+                const square = document.getElementById(`square${squareId}`);
+                square.textContent = scrambleWord(data.word); // Scrambla ordet innan det visas
+                square.style.display = 'block';
+            })
+            .catch(error => console.error('Error fetching word:', error));
+    }
+
+    // Funktion för att scrambla ett ord
+    function scrambleWord(word) {
+        return word.split('').sort(() => Math.random() - 0.5).join('');
+    }
 });

@@ -9,7 +9,7 @@ var app = WebApplication.CreateBuilder(args);
 public void BakeCookie()
 {
     clientId = GenerateUniqueClientId();
-    context.Response.C
+    context.Response.C;
 }
 
 static string GenerateUniqueClientId()
