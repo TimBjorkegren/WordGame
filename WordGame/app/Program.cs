@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,27 +6,32 @@ using Microsoft.Extensions.DependencyInjection;
 string clientId;
 //HttpContext context;
 
-var builder = WebApplication.CreateBuilder(args);
+/*var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
-
-//void BakeCookie()
-app.Use(async (context, next) =>
+*/
+String BakeCookie()
+//app.Use(async (context, next) =>
 {
-    clientId = GenerateUniqueClientId();
-    context.Response.Cookies.Append("ClientID", clientId, new CookieOptions
+    if (clientId == "")
+    {
+        clientId = GenerateUniqueClientId();
+/*    context.Response.Cookies.Append("ClientID", clientId, new CookieOptions
     {
         HttpOnly = true,
         Secure = false,
         SameSite = SameSiteMode.Strict,
         MaxAge = TimeSpan.MaxValue
     });
-    await next();
-});
+    await next();*/
+    }
+
+    return clientId;
+}; //);
     
 
 static string GenerateUniqueClientId()
