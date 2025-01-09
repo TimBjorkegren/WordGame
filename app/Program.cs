@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using System.Security.Cryptography;
+using app;
 
 
 public class Program
@@ -9,6 +10,17 @@ public class Program
     {
         var app = WebApplication.CreateBuilder(args);
         BakeCookie();
+        
+        try
+        {
+            var wordService = new WordService();
+            string randomWord = wordService.GetRandomWord();
+            Console.WriteLine($"Random Word: {randomWord}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
     }
 
     public static void BakeCookie()
@@ -24,4 +36,5 @@ public class Program
         rng.GetBytes(id);
         return Convert.ToBase64String(id);
     }
+   
 }
