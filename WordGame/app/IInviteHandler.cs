@@ -1,18 +1,20 @@
 namespace app;
 using Npgsql;
+using Microsoft.AspNetCore.Mvc;
+
+public class LobbyController : ControllerBase{
 
 [HttpPost("/generate-invite")]
 public IInviteHandler GenerateInvite()
 {
     var invitecode = GenerateLobbyCode();
 
-    SaveLobbyCodeToDatabase(invitecode, LobbyCreatorID: "player1_client");
-    
+    SaveLobbyCodeToDatabase(inviteCode, "player1_client");
+    return Ok(new {invite_code = inviteCode})
 }
 
 private string GenerateLobbyCode(){
 
-    var random = new Random();
     const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     string invitecode = ShuffleString(chars, 6);
     console.WriteLine(invitecode)
@@ -29,13 +31,14 @@ public static string ShuffleString(string chars, int length){
     )
 }
 
-private void SaveLobbyCodeToDatabase(string InviteCode, string LobbyCreatorID){
+private void SaveLobbyCodeToDatabase(string inviteCode, string LobbyCreatorID){
     
     DatebaseConnect _dbConnect = new DatebaseConnect();
         
-    var SqlQuery = "INSERT INTO lobbys (invite_code, LobbyCreatorID) VALUES (@invite_code, @LobbyCreatorID)";
+    var SqlQuery = "INSERT INTO lobbys (invite_code, player1_client) VALUES (@inviteCode, @LobbyCreatorID)";
     using var cmd = new npgsqlcommand(SqlQuery, cmd);
-    cmd.parameters.AddWithValue("InviteCode", invite_code);
+    cmd.parameters.AddWithValue("inviteCode", inviteCode);
     cmd.parameters.AddWithValue("LobbyCreatorID", LobbyCreatorID);
     cmd.ExecuteNonQuery();
+}
 }
