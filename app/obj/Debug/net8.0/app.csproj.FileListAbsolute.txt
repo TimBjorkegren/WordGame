@@ -1,0 +1,15 @@
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\bin\Debug\net8.0\app.exe
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\bin\Debug\net8.0\app.deps.json
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\bin\Debug\net8.0\app.runtimeconfig.json
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\bin\Debug\net8.0\app.dll
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\bin\Debug\net8.0\app.pdb
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\obj\Debug\net8.0\app.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\obj\Debug\net8.0\app.AssemblyInfoInputs.cache
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\obj\Debug\net8.0\app.AssemblyInfo.cs
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\obj\Debug\net8.0\app.csproj.CoreCompileInputs.cache
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\obj\Debug\net8.0\app.sourcelink.json
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\obj\Debug\net8.0\app.dll
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\obj\Debug\net8.0\refint\app.dll
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\obj\Debug\net8.0\app.pdb
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\obj\Debug\net8.0\app.genruntimeconfig.cache
+C:\Users\danie\Documents\NBI\WordGame\WordGame\app\obj\Debug\net8.0\ref\app.dll
