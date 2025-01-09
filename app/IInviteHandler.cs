@@ -33,7 +33,7 @@ public static string ShuffleString(string chars, int length){
 
 private void SaveLobbyCodeToDatabase(string inviteCode, string LobbyCreatorID){
     
-    DatebaseConnect _dbConnect = new DatebaseConnect();
+    DatabaseConnect _dbConnect = new DatabaseConnect();
         
     var SqlQuery = "INSERT INTO lobbys (invite_code, player1_client) VALUES (@inviteCode, @LobbyCreatorID)";
     using var cmd = new npgsqlcommand(SqlQuery, cmd);
