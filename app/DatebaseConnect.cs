@@ -1,13 +1,13 @@
 namespace app;
 using Npgsql;
 
-public class DatebaseConnect
+public class DatabaseConnect
 {
     private String _connectionString;
 
-    public DatebaseConnect()
+    public DatabaseConnect()
     {
-        _connectionString = "Host=localhost;Username=postgres;Password=thedAnne@3223;Database=postgres";
+        _connectionString = "Host=localhost;Username=postgres;Password=7942;Database=postgres";
         
     }
 

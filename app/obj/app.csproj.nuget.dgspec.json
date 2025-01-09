@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj": {}
+    "C:\\Users\\timbj\\repos\\WordGame\\app\\app.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj": {
+    "C:\\Users\\timbj\\repos\\WordGame\\app\\app.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj",
+        "projectUniqueName": "C:\\Users\\timbj\\repos\\WordGame\\app\\app.csproj",
         "projectName": "app",
-        "projectPath": "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj",
-        "packagesPath": "C:\\Users\\maste\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maste\\repos\\WordGame\\app\\obj\\",
+        "projectPath": "C:\\Users\\timbj\\repos\\WordGame\\app\\app.csproj",
+        "packagesPath": "C:\\Users\\timbj\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\timbj\\repos\\WordGame\\app\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\maste\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\timbj\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -44,6 +44,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Mvc": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Npgsql": {
               "target": "Package",
               "version": "[9.0.2, )"
@@ -60,25 +64,10 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.11, 8.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.11, 8.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.11, 8.0.11]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.11, 8.0.11]"
-            }
-          ],
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
