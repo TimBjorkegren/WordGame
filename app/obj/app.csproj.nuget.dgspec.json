@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\timbj\\repos\\WordGame\\app\\app.csproj": {}
+    "C:\\Users\\timbj\\repos\\wordgame\\app\\app.csproj": {}
   },
   "projects": {
-    "C:\\Users\\timbj\\repos\\WordGame\\app\\app.csproj": {
+    "C:\\Users\\timbj\\repos\\wordgame\\app\\app.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\timbj\\repos\\WordGame\\app\\app.csproj",
+        "projectUniqueName": "C:\\Users\\timbj\\repos\\wordgame\\app\\app.csproj",
         "projectName": "app",
-        "projectPath": "C:\\Users\\timbj\\repos\\WordGame\\app\\app.csproj",
+        "projectPath": "C:\\Users\\timbj\\repos\\wordgame\\app\\app.csproj",
         "packagesPath": "C:\\Users\\timbj\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\timbj\\repos\\WordGame\\app\\obj\\",
+        "outputPath": "C:\\Users\\timbj\\repos\\wordgame\\app\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\timbj\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -37,7 +37,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "all"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {

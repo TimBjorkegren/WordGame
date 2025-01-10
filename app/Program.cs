@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using System.Security.Cryptography;
+using Microsoft.Extensions.DependencyInjection;
 using app;
 
 
@@ -8,7 +9,12 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        var app = WebApplication.CreateBuilder(args);
+        var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddControllers();
+        var app = builder.Build();
+        app.UseRouting();
+        app.MapControllers();
+        app.Run();
         BakeCookie();
         
         try

@@ -39,7 +39,7 @@ public class LobbyController : ControllerBase, IInviteHandler
     private void SaveLobbyCodeToDatabase(string inviteCode, string lobbyCreatorId)
     {
         DatabaseConnect _dbConnect = new DatabaseConnect();
-        var sqlQuery = "INSERT INTO lobbys (invite_code, player1_client) VALUES (@inviteCode, @LobbyCreatorID)";
+        var sqlQuery = "INSERT INTO english_dictionary.lobbys (invite_code, player1_client) VALUES (@inviteCode, @LobbyCreatorID)";
         using var conn = _dbConnect.GetConnection();
         using var cmd = new NpgsqlCommand(sqlQuery, conn);
         cmd.Parameters.AddWithValue("inviteCode", inviteCode);
