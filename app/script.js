@@ -32,20 +32,41 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }, 1000);
 
-
-    function displayWordInSquare(squareId) {
-        fetch('http://localhost:5500/api/words/random') // Använd din faktiska API-URL
-            .then(response => response.json())
-            .then(data => {
-                const square = document.getElementById(`square${squareId}`);
-                square.textContent = scrambleWord(data.word); // Scrambla ordet innan det visas
-                square.style.display = 'block';
-            })
-            .catch(error => console.error('Error fetching word:', error));
+    async function fetchRandomWord() {
+        try {
+            const response = await fetch('http://localhost:5000/api/word/random');
+            if (!response.ok) {
+                throw new Error(`Error fetching word: ${response.statusText}`);
+            }
+    
+            const data = await response.json();
+            return data.word;
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
     }
 
-    // Funktion för att scrambla ett ord
     function scrambleWord(word) {
-        return word.split('').sort(() => Math.random() - 0.5).join('');
+        if (!word) return null;
+    
+        // Scrambling the word
+        return word
+            .split('')
+            .sort(() => Math.random() - 0.5)
+            .join('');
     }
+
+    async function displayWord() {
+        const word = await fetchRandomWord(); // Fetch the word from the API
+        if (word) {
+            const scrambled = scrambleWord(word);
+            document.getElementById('word-container').innerText = scrambled;
+        } else {
+            document.getElementById('word-container').innerText = 'Error fetching word!';
+        }
+    }
+    
+    window.onload = displayWord;
+
 });

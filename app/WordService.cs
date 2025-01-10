@@ -15,7 +15,7 @@ namespace app
         {
             using (var conn = _databaseConnect.GetConnection())
             {
-                var cmd = new NpgsqlCommand("SELECT c1 FROM dictionary WHERE LENGTH(c1) >= 10 ORDER BY RANDOM() LIMIT 1;", conn);
+                var cmd = new NpgsqlCommand("SELECT c1 FROM english_dictionary.dictionary WHERE LENGTH(c1) = 10 ORDER BY RANDOM() LIMIT 1;", conn);
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())

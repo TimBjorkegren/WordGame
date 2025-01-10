@@ -1,26 +1,51 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using System.Security.Cryptography;
-using app;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 
+using app;
 
 public class Program
 {
     public static void Main(string[] args)
     {
-        var app = WebApplication.CreateBuilder(args);
+        var builder = WebApplication.CreateBuilder(args);
+
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy.AllowAnyOrigin()  
+                    .AllowAnyHeader()  
+                    .AllowAnyMethod(); 
+            });
+        });
+
+        builder.Services.AddSingleton<WordService>(); 
+
+        var app = builder.Build();
+        // Using CORS because frontend and backend are using different ports
+        app.UseCors("AllowAll");
+
         BakeCookie();
-        
-        var wordService = new WordService();  // Create an instance of WordService
-        try
+
+        app.MapGet("/api/word/random", (WordService wordService) =>
         {
-            string randomWord = wordService.GetRandomWord();  // Get a random word
-            Console.WriteLine($"Random word from WordService: {randomWord}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error getting random word: {ex.Message}");
-        }
+            try
+            {
+                string randomWord = wordService.GetRandomWord();
+                return Results.Ok(new { word = randomWord });
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(new { error = ex.Message });
+            }
+        });
+
+        // Start the application
+        app.Run();
     }
 
     public static void BakeCookie()

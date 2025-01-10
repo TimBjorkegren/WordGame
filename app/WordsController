@@ -1,22 +1,30 @@
-[ApiController]
-[Route("api/[controller]")]
-public class WordsController : ControllerBase
+using Microsoft.AspNetCore.Mvc;
+
+namespace app.Controllers
 {
-    private readonly DatabaseContext _context; // Din databaskontext
-
-    public WordsController(DatabaseContext context)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class WordController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly WordService _wordService;
 
-    [HttpGet("random")]
-    public IActionResult GetRandomWord()
-    {
-        var random = new Random();
-        var words = _context.Words.ToList(); // Hämta alla ord från databasen
-        if (!words.Any()) return NotFound("No words found in the database.");
+        public WordController()
+        {
+            _wordService = new WordService();
+        }
 
-        var randomWord = words[random.Next(words.Count)];
-        return Ok(new { word = randomWord.Text }); // Returnera ett ord som JSON
+        [HttpGet("random")]
+        public IActionResult GetRandomWord()
+        {
+            try
+            {
+                var word = _wordService.GetRandomWord();
+                return Ok(new { word });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
     }
 }
