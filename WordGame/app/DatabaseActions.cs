@@ -4,11 +4,11 @@ namespace app;
 
 public class DatabaseActions
 {
-    private DatebaseConnect _datebaseConnect = new();
+    DatebaseConnect database = new();
     private NpgsqlDataSource db;
     private string clientId;
-
-
+    
+    db = database.GetConnection();
     async Task<string> CreateLobby<T>()
     {
         await using var cmd = db.CreateCommand("INSERT INTO Lobbies (player_1_client) VALUES ($1)");
@@ -17,3 +17,4 @@ public class DatabaseActions
         return clientId;
     }
 }
+
