@@ -8,7 +8,7 @@ namespace app
 
         public WordService()
         {
-            _databaseConnect = new DatabaseConnect(); // Instantiating DatabaseConnect
+            _databaseConnect = new DatabaseConnect(); 
         }
 
         public string GetRandomWord()
@@ -22,10 +22,11 @@ namespace app
                     {
                         return reader.GetString(0); // Return the random word
                     }
+                    Console.WriteLine($"Random word: {reader.GetString(0)}");
                 }
             }
 
             throw new Exception("No words with at least 10 characters found in the database.");
         }
     }
-}
+} 

@@ -2,43 +2,48 @@ namespace app;
 using Npgsql;
 using Microsoft.AspNetCore.Mvc;
 
-public class LobbyController : ControllerBase{
-
-[HttpPost("/generate-invite")]
-public IInviteHandler GenerateInvite()
+public class LobbyController : ControllerBase, IInviteHandler
 {
-    var invitecode = GenerateLobbyCode();
+    [HttpPost("/generate-invite")]
+    public IActionResult GenerateInvite()
+    {
+        var inviteCode = GenerateLobbyCode();
+        SaveLobbyCodeToDatabase(inviteCode, "player1_client");
+        return Ok(new { invite_code = inviteCode });
+    }
 
-    SaveLobbyCodeToDatabase(inviteCode, "player1_client");
-    return Ok(new {invite_code = inviteCode})
-}
-
-private string GenerateLobbyCode(){
-
-    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    string invitecode = ShuffleString(chars, 6);
-    console.WriteLine(invitecode)
-}
-
-public static string ShuffleString(string chars, int length){
-
-    random = new Random();
-
-    return new string(
-        chars.OrderBy(c => random.Next())
-        .Take(length)
-        .ToArray()
-    )
-}
-
-private void SaveLobbyCodeToDatabase(string inviteCode, string LobbyCreatorID){
-    
-    DatabaseConnect _dbConnect = new DatabaseConnect();
+    public string GenerateInviteCode()
+    {
         
-    var SqlQuery = "INSERT INTO lobbys (invite_code, player1_client) VALUES (@inviteCode, @LobbyCreatorID)";
-    using var cmd = new npgsqlcommand(SqlQuery, cmd);
-    cmd.parameters.AddWithValue("inviteCode", inviteCode);
-    cmd.parameters.AddWithValue("LobbyCreatorID", LobbyCreatorID);
-    cmd.ExecuteNonQuery();
-}
+        return GenerateLobbyCode();
+    }
+
+    private string GenerateLobbyCode()
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        string inviteCode = ShuffleString(chars, 6);
+        Console.WriteLine(inviteCode); 
+        return inviteCode;
+    }
+
+    public static string ShuffleString(string chars, int length)
+    {
+        var random = new Random();
+        return new string(
+            chars.OrderBy(c => random.Next())
+            .Take(length)
+            .ToArray()
+        );
+    }
+
+    private void SaveLobbyCodeToDatabase(string inviteCode, string lobbyCreatorId)
+    {
+        DatabaseConnect _dbConnect = new DatabaseConnect();
+        var sqlQuery = "INSERT INTO lobbys (invite_code, player1_client) VALUES (@inviteCode, @LobbyCreatorID)";
+        using var conn = _dbConnect.GetConnection();
+        using var cmd = new NpgsqlCommand(sqlQuery, conn);
+        cmd.Parameters.AddWithValue("inviteCode", inviteCode);
+        cmd.Parameters.AddWithValue("LobbyCreatorID", lobbyCreatorId);
+        cmd.ExecuteNonQuery();
+    }
 }

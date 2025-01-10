@@ -1,21 +1,39 @@
-﻿// See https://aka.ms/new-console-template for more information
-
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 using System.Security.Cryptography;
+using app;
 
-string clientId;
-HttpContent context;
-var app = WebApplication.CreateBuilder(args);
 
-public void BakeCookie()
+public class Program
 {
-    clientId = GenerateUniqueClientId();
-    context.Response.C;
-}
+    public static void Main(string[] args)
+    {
+        var app = WebApplication.CreateBuilder(args);
+        BakeCookie();
+        
+        var wordService = new WordService();  // Create an instance of WordService
+        try
+        {
+            string randomWord = wordService.GetRandomWord();  // Get a random word
+            Console.WriteLine($"Random word from WordService: {randomWord}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error getting random word: {ex.Message}");
+        }
+    }
 
-static string GenerateUniqueClientId()
-{
-    var rng = RandomNumberGenerator.Create();
-    var id = new byte[16];
-    rng.GetBytes(id);
-    return Convert.ToBase64String(id);
+    public static void BakeCookie()
+    {
+        string clientId = GenerateUniqueClientId();
+        Console.WriteLine($"Generated Client ID: {clientId}");
+    }
+
+    private static string GenerateUniqueClientId()
+    {
+        var rng = RandomNumberGenerator.Create();
+        var id = new byte[16];
+        rng.GetBytes(id);
+        return Convert.ToBase64String(id);
+    }
 }
