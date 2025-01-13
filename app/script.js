@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.getElementById("inviteBtn").addEventListener("click", function () {
-    fetch('http://localhost:5000/generate-invite', {
+    fetch(`http://localhost:5000/generate-invite`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -48,3 +48,4 @@ document.getElementById("inviteBtn").addEventListener("click", function () {
             console.error(error);
         });
 });
+

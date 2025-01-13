@@ -2,6 +2,7 @@ namespace app;
 using Npgsql;
 using Microsoft.AspNetCore.Mvc;
 
+
 public class LobbyController : ControllerBase, IInviteHandler
 {
     [HttpPost("/generate-invite")]
@@ -9,14 +10,18 @@ public class LobbyController : ControllerBase, IInviteHandler
     {
         var inviteCode = GenerateLobbyCode();
 
-        var clientId = GenerateUniqueClientId();
-        SaveLobbyCodeToDatabase(inviteCode, clientId);
-        return Ok(new { invite_code = inviteCode, client_id = clientId});
+        if (Request.Cookies.TryGetValue("ClientId", out var cookieId)) {
+
+        } else{
+            return NotFound("could not find client id");
+        }
+        
+        SaveLobbyCodeToDatabase(inviteCode, cookieId);
+        return Ok(new { invite_code = inviteCode, client_id = cookieId});
     }
 
     public string GenerateInviteCode()
     {
-        
         return GenerateLobbyCode();
     }
 
@@ -46,7 +51,7 @@ public class LobbyController : ControllerBase, IInviteHandler
         using var conn = _dbConnect.GetConnection();
         using var cmd = new NpgsqlCommand(sqlQuery, conn);
         cmd.Parameters.AddWithValue("inviteCode", inviteCode);
-        cmd.Parameters.AddWithValue("LobbyCreatorID", clientId);
+        cmd.Parameters.AddWithValue("clientId", clientId);
         cmd.ExecuteNonQuery();
     }
 }
