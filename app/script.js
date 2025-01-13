@@ -34,18 +34,18 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.getElementById("inviteBtn").addEventListener("click", function () {
-    fetch(`http://localhost:5000/generate-invite`, {
+    fetch('http://localhost:5000/generate-invite', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        credentials: 'include'
     })
         .then(response => response.json())
         .then(data => {
-            document.getElementById("inviteCodeDisplay").innerText = `Your invite code is: ${data.invite_code} Your cookie is: ${data.client_id}`;
+            document.getElementById("inviteCodeDisplay").innerText = `Your invite code is: ${data.invite_code}, Your cookie is: ${data.client_id}`;
         })
         .catch(error => {
             console.error(error);
         });
 });
-

@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography;
-using app;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -12,28 +11,38 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add CORS configuration
+        // Lägg till CORS-konfiguration
         builder.Services.AddCors(options =>
         {
             options.AddPolicy(
                 "AllowAll",
                 policy =>
                 {
-                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    policy
+                        .WithOrigins("http://127.0.0.1:5500")
+                        .AllowAnyMethod() // Tillåt alla HTTP-metoder (GET, POST, etc.)
+                        .AllowAnyHeader() // Tillåt alla headers
+                        .AllowCredentials(); // Tillåt credentials
                 }
             );
         });
 
-        // Add controllers
+        // Lägg till controllers
         builder.Services.AddControllers();
 
         var app = builder.Build();
 
+        // Använd CORS-policy innan andra middleware
+        app.UseCors("AllowAll");
+
+        // Middleware för att hantera cookies
         app.Use(
             async (context, next) =>
             {
+                // Kontrollera om cookien "ClientId" redan finns
                 if (!context.Request.Cookies.ContainsKey("ClientId"))
                 {
+                    // Om cookien inte finns, generera en ny och sätt den
                     string clientId = GenerateUniqueClientId();
                     context.Response.Cookies.Append(
                         "ClientId",
@@ -42,30 +51,23 @@ public class Program
                         {
                             HttpOnly = true,
                             Secure = true,
-                            SameSite = SameSiteMode.Strict,
-                            Expires = DateTimeOffset.UtcNow.AddDays(30),
+                            SameSite = SameSiteMode.None,
+                            Expires = DateTimeOffset.UtcNow.AddDays(30), // Sätt 30 dagars utgångstid
                         }
                     );
+
                     Console.WriteLine($"Generated new Client ID: {clientId}");
-                }
-                else
-                {
-                    string existingClientId = context.Request.Cookies["ClientId"];
-                    Console.WriteLine($"Existing Client ID: {existingClientId}");
                 }
 
                 await next();
             }
         );
 
-        // Use CORS policy before other middleware
-        app.UseCors("AllowAll");
-
-        // Use routing and map controllers
+        // Använd routing och mappar controllers
         app.UseRouting();
         app.MapControllers();
 
-        // Run the application
+        // Kör applikationen
         app.Run();
     }
 

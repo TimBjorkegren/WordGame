@@ -1,5 +1,7 @@
 namespace app;
 
+using System;
+using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
@@ -18,8 +20,9 @@ public class LobbyController : ControllerBase
 
     private string GetClientId()
     {
-        if (Request.Cookies.TryGetValue("ClientId", out var clientId))
+        if (Request.Cookies.TryGetValue("ClientId", out string clientId))
         {
+            Console.WriteLine($"ClientId cookie retrieved: {clientId}");
             return clientId;
         }
         else
@@ -32,10 +35,11 @@ public class LobbyController : ControllerBase
                 {
                     HttpOnly = true,
                     Secure = true,
-                    SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.None,
                     Expires = DateTimeOffset.UtcNow.AddDays(30),
                 }
             );
+            Console.WriteLine($"New ClientId cookie set: {newClientId}");
             return newClientId;
         }
     }
