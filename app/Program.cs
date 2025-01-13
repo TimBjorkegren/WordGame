@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
-using System.Security.Cryptography;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http;
+﻿using System.Security.Cryptography;
+using app;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 public class Program
 {
@@ -11,62 +12,64 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Lägg till CORS-konfiguration
+        // Add CORS configuration
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("AllowAll", policy =>
-            {
-                policy.AllowAnyOrigin()  // Tillåt alla ursprung (domän/port)
-                      .AllowAnyMethod()  // Tillåt alla HTTP-metoder (GET, POST, etc.)
-                      .AllowAnyHeader(); // Tillåt alla headers
-            });
+            options.AddPolicy(
+                "AllowAll",
+                policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                }
+            );
         });
 
-        // Lägg till controllers
+        // Add controllers
         builder.Services.AddControllers();
 
         var app = builder.Build();
 
-        // Använd CORS-policy innan andra middleware
+        app.Use(
+            async (context, next) =>
+            {
+                if (!context.Request.Cookies.ContainsKey("ClientId"))
+                {
+                    string clientId = GenerateUniqueClientId();
+                    context.Response.Cookies.Append(
+                        "ClientId",
+                        clientId,
+                        new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict,
+                            Expires = DateTimeOffset.UtcNow.AddDays(30),
+                        }
+                    );
+                    Console.WriteLine($"Generated new Client ID: {clientId}");
+                }
+                else
+                {
+                    string existingClientId = context.Request.Cookies["ClientId"];
+                    Console.WriteLine($"Existing Client ID: {existingClientId}");
+                }
+
+                await next();
+            }
+        );
+
+        // Use CORS policy before other middleware
         app.UseCors("AllowAll");
 
-        // Middleware för att hantera cookies
-        app.Use(async (context, next) =>
-        {
-            // Kontrollera om cookien "ClientId" redan finns
-            if (!context.Request.Cookies.ContainsKey("ClientId"))
-            {
-                // Om cookien inte finns, generera en ny och sätt den
-                string clientId = GenerateUniqueClientId();
-                context.Response.Cookies.Append("ClientId", clientId, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTimeOffset.UtcNow.AddDays(30) // Sätt 30 dagars utgångstid
-                });
-
-                Console.WriteLine($"Generated new Client ID: {clientId}");
-            }
-            else
-            {
-                // Cookie finns redan, hämta värdet för debugging (valfritt)
-                string existingClientId = context.Request.Cookies["ClientId"];
-                Console.WriteLine($"Existing Client ID: {existingClientId}");
-            }
-
-            await next();
-        });
-
-        // Använd routing och mappar controllers
+        // Use routing and map controllers
         app.UseRouting();
         app.MapControllers();
 
-        // Kör applikationen
+        // Run the application
         app.Run();
     }
 
-    private static string GenerateUniqueClientId()
+    public static string GenerateUniqueClientId()
     {
         var rng = RandomNumberGenerator.Create();
         var id = new byte[16];

@@ -42,7 +42,7 @@ document.getElementById("inviteBtn").addEventListener("click", function () {
     })
         .then(response => response.json())
         .then(data => {
-            document.getElementById("inviteCodeDisplay").innerText = `Your invite code is: ${data.invite_code}`;
+            document.getElementById("inviteCodeDisplay").innerText = `Your invite code is: ${data.invite_code} Your cookie is: ${data.client_id}`;
         })
         .catch(error => {
             console.error(error);
