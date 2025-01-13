@@ -48,3 +48,10 @@ document.getElementById("inviteBtn").addEventListener("click", function () {
             console.error(error);
         });
 });
+    function checkGameResult() {
+    if (playerScore >= 5) {
+        document.getElementById('you-win').style.display = 'block';
+    } else {
+        document.getElementById('you-lose').style.display = 'block';
+    }
+}
