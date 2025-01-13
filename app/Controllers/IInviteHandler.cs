@@ -8,8 +8,10 @@ public class LobbyController : ControllerBase, IInviteHandler
     public IActionResult GenerateInvite()
     {
         var inviteCode = GenerateLobbyCode();
-        SaveLobbyCodeToDatabase(inviteCode, "player1_client");
-        return Ok(new { invite_code = inviteCode });
+
+        var clientId = GenerateUniqueClientId();
+        SaveLobbyCodeToDatabase(inviteCode, clientId);
+        return Ok(new { invite_code = inviteCode, client_id = clientId});
     }
 
     public string GenerateInviteCode()
@@ -17,6 +19,7 @@ public class LobbyController : ControllerBase, IInviteHandler
         
         return GenerateLobbyCode();
     }
+
 
     private string GenerateLobbyCode()
     {
@@ -36,14 +39,14 @@ public class LobbyController : ControllerBase, IInviteHandler
         );
     }
 
-    private void SaveLobbyCodeToDatabase(string inviteCode, string lobbyCreatorId)
+    private void SaveLobbyCodeToDatabase(string inviteCode, string clientId)
     {
         DatabaseConnect _dbConnect = new DatabaseConnect();
-        var sqlQuery = "INSERT INTO english_dictionary.lobbys (invite_code, player1_client) VALUES (@inviteCode, @LobbyCreatorID)";
+        var sqlQuery = "INSERT INTO english_dictionary.lobbys (invite_code, player1_client) VALUES (@inviteCode, @clientId)";
         using var conn = _dbConnect.GetConnection();
         using var cmd = new NpgsqlCommand(sqlQuery, conn);
         cmd.Parameters.AddWithValue("inviteCode", inviteCode);
-        cmd.Parameters.AddWithValue("LobbyCreatorID", lobbyCreatorId);
+        cmd.Parameters.AddWithValue("LobbyCreatorID", clientId);
         cmd.ExecuteNonQuery();
     }
 }
