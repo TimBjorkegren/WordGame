@@ -29,6 +29,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (countDownTime <= 0) {
             clearInterval(interval);
             countDownElement.textContent = 'Time is up!';
+            checkGameResult();
         }
     }, 1000);
+    
+    function checkGameResult() {
+        if (playerScore >= 5) {
+            document.getElementById('you-win').style.display = 'block';
+        } else {
+            document.getElementById('you-lose').style.display = 'block';
+        }
+    }    
 });
