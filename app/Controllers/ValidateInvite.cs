@@ -25,7 +25,20 @@ namespace app.Controllers
 
                 if (isMatch)
                 {
+                    var clientId = GetClientId();
+                    var wasAdded = AddPlayer2ToLobby(request.InviteCode, clientId);
                     return Ok(new { message = "Invite code matches." });
+
+                    if (wasAdded)
+                    {
+                        return Ok(new { message = "Player 2 has join the lobby" });
+                    }
+                    else
+                    {
+                        return Ok(
+                            new { message = "Lobby is full or its the incorrect lobby code" }
+                        );
+                    }
                 }
                 else
                 {
@@ -37,6 +50,50 @@ namespace app.Controllers
                 Console.WriteLine($"Error in ValidateInvite: {ex.Message}");
                 return StatusCode(500, "An error occurred while validating the invite code.");
             }
+        }
+
+        private string GetClientId()
+        {
+            if (Request.Cookies.TryGetValue("ClientId", out string clientId))
+            {
+                Console.WriteLine($"ClientId cookie retrieved: {clientId}");
+                return clientId;
+            }
+            else
+            {
+                var newClientId = Program.GenerateUniqueClientId();
+                Response.Cookies.Append(
+                    "ClientId",
+                    newClientId,
+                    new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.None,
+                        Expires = DateTimeOffset.UtcNow.AddDays(30),
+                    }
+                );
+                Console.WriteLine($"New ClientId cookie set: {newClientId}");
+                return newClientId;
+            }
+        }
+
+        private bool AddPlayer2ToLobby(string inviteCode, string player2Client)
+        {
+            var _dbConnect = new DatabaseConnect();
+            var sqlQuery =
+                @"
+        UPDATE english_dictionary.lobbys
+        SET player2_client = @player2Client
+        WHERE invite_code = @inviteCode AND player2_client IS NULL";
+
+            using var conn = _dbConnect.GetConnection();
+            using var cmd = new NpgsqlCommand(sqlQuery, conn);
+            cmd.Parameters.AddWithValue("inviteCode", inviteCode);
+            cmd.Parameters.AddWithValue("player2Client", player2Client);
+
+            int rowsAffected = cmd.ExecuteNonQuery();
+            return rowsAffected > 0;
         }
     }
 }
