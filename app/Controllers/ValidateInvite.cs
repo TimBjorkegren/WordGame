@@ -64,6 +64,7 @@ namespace app.Controllers
                 if (CheckIfPlayer2Ready(lobbyId))
                 {
                     await Response.WriteAsync("event: gameStarted\n");
+                    Console.WriteLine("Finished");
                     break;
                 }
 
@@ -109,6 +110,7 @@ namespace app.Controllers
             cmd.Parameters.AddWithValue("lobbyId", lobbyId);
             using (NpgsqlDataReader reader = cmd.ExecuteReader())
             {
+                Console.WriteLine(reader.HasRows);
                 return reader.HasRows;
             }
         }

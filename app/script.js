@@ -87,11 +87,12 @@ function startLobby(lobbyId) {
     const eventSource = new EventSource(`http://127.0.0.1:5000/api/ValidateInvite/gamestatus/${lobbyId}`);
 
     eventSource.addEventListener("gameStarted", (event) => {
-        console.log("Your game is starting");
+        startGame(eventSource);
     })
 
-    eventSource.onerror = () => {
-        console.log('Error occurred');
+    eventSource.onerror = (event) => {
+        console.log(event);
+        eventSource.close();
     };
 
     eventSource.onopen = () => {
@@ -102,3 +103,10 @@ function startLobby(lobbyId) {
         console.log('Disconnected from the SSE endpoint for lobby' + lobbyId);
     };
 };
+
+function startGame(eventSource) {
+    if (eventSource) {
+        eventSource.close();
+        console.log("disconnecting")
+    }
+}
