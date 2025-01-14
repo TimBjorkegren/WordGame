@@ -49,3 +49,32 @@ document.getElementById("inviteBtn").addEventListener("click", function () {
             console.error(error);
         });
 });
+
+document.getElementById("playBtn").addEventListener("click", () => {
+    const inviteCode = prompt("Enter Invite Code");
+
+    if (inviteCode) {
+        fetch("http://127.0.0.1:5000/api/validateinvite/validate-invite", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ inviteCode })
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else if (response.status === 404) {
+                    throw new Error("Invite code does not match.");
+                }
+            })
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    } else {
+        alert("You must enter an invite code!");
+    }
+});
