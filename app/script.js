@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.getElementById("inviteBtn").addEventListener("click", function () {
-    fetch('http://localhost:5000/generate-invite', {
+    fetch('http://127.0.0.1:5000/generate-invite', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -43,6 +43,7 @@ document.getElementById("inviteBtn").addEventListener("click", function () {
     })
         .then(response => response.json())
         .then(data => {
+            startLobby(data.invite_code);
             document.getElementById("inviteCodeDisplay").innerText = `Your invite code is: ${data.invite_code}, Your cookie is: ${data.client_id}`;
         })
         .catch(error => {
@@ -59,7 +60,8 @@ document.getElementById("playBtn").addEventListener("click", () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ inviteCode })
+            body: JSON.stringify({ inviteCode }),
+            credentials: 'include'
         })
             .then(response => {
                 if (response.ok) {
@@ -70,7 +72,9 @@ document.getElementById("playBtn").addEventListener("click", () => {
             })
             .then(data => {
                 alert(data.message);
+                startLobby(inviteCode);
             })
+
             .catch(error => {
                 alert(error.message);
             });
@@ -78,3 +82,23 @@ document.getElementById("playBtn").addEventListener("click", () => {
         alert("You must enter an invite code!");
     }
 });
+
+function startLobby(lobbyId) {
+    const eventSource = new EventSource(`http://127.0.0.1:5000/api/ValidateInvite/gamestatus/${lobbyId}`);
+
+    eventSource.addEventListener("gameStarted", (event) => {
+        console.log("Your game is starting");
+    })
+
+    eventSource.onerror = () => {
+        console.log('Error occurred');
+    };
+
+    eventSource.onopen = () => {
+        console.log('Connected to the SSE endpoint for lobby' + lobbyId);
+    };
+
+    eventSource.onclose = () => {
+        console.log('Disconnected from the SSE endpoint for lobby' + lobbyId);
+    };
+};

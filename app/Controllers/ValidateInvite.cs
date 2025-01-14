@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +27,8 @@ namespace app.Controllers
                 if (isMatch)
                 {
                     var clientId = GetClientId();
+                    Console.WriteLine("HEEEEEEEEEEEEEEEEEEEJ" + clientId);
                     var wasAdded = AddPlayer2ToLobby(request.InviteCode, clientId);
-                    return Ok(new { message = "Invite code matches." });
 
                     if (wasAdded)
                     {
@@ -49,6 +50,24 @@ namespace app.Controllers
             {
                 Console.WriteLine($"Error in ValidateInvite: {ex.Message}");
                 return StatusCode(500, "An error occurred while validating the invite code.");
+            }
+        }
+
+        [HttpGet]
+        [Route("gamestatus/{lobbyId}")]
+        public async Task Get(string lobbyId)
+        {
+            Response.Headers.Add("Content-Type", "text/event-stream");
+
+            while (true)
+            {
+                if (CheckIfPlayer2Ready(lobbyId))
+                {
+                    await Response.WriteAsync("event: gameStarted\n");
+                    break;
+                }
+
+                await Task.Delay(2000);
             }
         }
 
@@ -78,6 +97,22 @@ namespace app.Controllers
             }
         }
 
+        private bool CheckIfPlayer2Ready(string lobbyId)
+        {
+            var _dbConnect = new DatabaseConnect();
+            var sqlQuery =
+                @"SELECT * FROM english_dictionary.lobbys
+            WHERE invite_code = @lobbyId AND player2_client IS NOT NULL";
+
+            using var conn = _dbConnect.GetConnection();
+            using var cmd = new NpgsqlCommand(sqlQuery, conn);
+            cmd.Parameters.AddWithValue("lobbyId", lobbyId);
+            using (NpgsqlDataReader reader = cmd.ExecuteReader())
+            {
+                return reader.HasRows;
+            }
+        }
+
         private bool AddPlayer2ToLobby(string inviteCode, string player2Client)
         {
             var _dbConnect = new DatabaseConnect();
@@ -93,6 +128,7 @@ namespace app.Controllers
             cmd.Parameters.AddWithValue("player2Client", player2Client);
 
             int rowsAffected = cmd.ExecuteNonQuery();
+            Console.WriteLine(rowsAffected);
             return rowsAffected > 0;
         }
     }
