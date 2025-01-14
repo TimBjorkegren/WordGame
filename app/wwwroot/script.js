@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementsByClassName('square')[1],
         document.getElementsByClassName('square')[2],
         document.getElementsByClassName('square')[3],
-        document.getElementsByClassName('square')[4] 
+        document.getElementsByClassName('square')[4]
     ];
 
     const squares = [
@@ -30,30 +30,30 @@ document.addEventListener('DOMContentLoaded', function () {
         countDownTime--;
         countDownElement.textContent = countDownTime;
         if (countDownTime == 50) {
-                square1.style.display = 'block';
-                squareVisibility[0] = true;
-            }
-        
+            square1.style.display = 'block';
+            squareVisibility[0] = true;
+        }
+
         if (countDownTime == 40) {
-                square2.style.display = 'block';
-                squareVisibility[1] = true;
-            }
-        
+            square2.style.display = 'block';
+            squareVisibility[1] = true;
+        }
+
         if (countDownTime == 30) {
-                square3.style.display = 'block';
-                squareVisibility[2] = true;
-            }
-        
+            square3.style.display = 'block';
+            squareVisibility[2] = true;
+        }
+
         if (countDownTime == 20) {
-                square4.style.display = 'block';
-                squareVisibility[3] = true;
-            }
-        
+            square4.style.display = 'block';
+            squareVisibility[3] = true;
+        }
+
         if (countDownTime == 10) {
-                square5.style.display = 'block';
-                squareVisibility[4] = true;
-            }
-        
+            square5.style.display = 'block';
+            squareVisibility[4] = true;
+        }
+
         if (countDownTime <= 0) {
             clearInterval(interval);
             countDownElement.textContent = 'Time is up!';
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function fetchRandomWord() {
         try {
-            const response = await fetch('http://localhost:5000/api/word/random');
+            const response = await fetch('/api/word/random');
             if (!response.ok) {
                 throw new Error(`Error fetching word: ${response.statusText}`);
             }
@@ -79,8 +79,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function scrambleWord(word) {
         if (!word) return null;
-    
+
         return word
+            .toUpperCase()
             .split('')
             .sort(() => Math.random() - 0.5)
             .join('');
@@ -91,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const word = await fetchRandomWord();
         if (word) {
-            scrambledWordArray = scrambleWord(word).split('');
+            scrambledWordArray = scrambleWord(word);
             console.log('Scrambled word:', scrambledWordArray);
             wordFetched = true;
         } else {

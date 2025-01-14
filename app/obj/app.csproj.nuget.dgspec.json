@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj": {}
+    "/Users/datorn/vscoderepos/WordGame/app/app.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj": {
+    "/Users/datorn/vscoderepos/WordGame/app/app.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj",
+        "projectUniqueName": "/Users/datorn/vscoderepos/WordGame/app/app.csproj",
         "projectName": "app",
-        "projectPath": "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj",
-        "packagesPath": "C:\\Users\\maste\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maste\\repos\\WordGame\\app\\obj\\",
+        "projectPath": "/Users/datorn/vscoderepos/WordGame/app/app.csproj",
+        "packagesPath": "/Users/datorn/.nuget/packages/",
+        "outputPath": "/Users/datorn/vscoderepos/WordGame/app/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\maste\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/datorn/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -36,7 +36,7 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
+          "auditMode": "direct"
         },
         "SdkAnalysisLevel": "9.0.100"
       },
@@ -72,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

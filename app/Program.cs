@@ -12,22 +12,24 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        // builder.Services.AddCors(options =>
+        // {
+        //     options.AddPolicy("AllowAll", policy =>
+        //     {
+        //         policy.AllowAnyOrigin()
+        //               .AllowAnyHeader()
+        //               .AllowAnyMethod();
+        //     });
+        // });
 
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAll", policy =>
-            {
-                policy.AllowAnyOrigin()  
-                    .AllowAnyHeader()  
-                    .AllowAnyMethod(); 
-            });
-        });
-
-        builder.Services.AddSingleton<WordService>(); 
+        builder.Services.AddSingleton<WordService>();
 
         var app = builder.Build();
         // Using CORS because frontend and backend are using different ports
-        app.UseCors("AllowAll");
+        // app.UseCors("AllowAll");
+
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
 
         BakeCookie();
 
