@@ -12,13 +12,16 @@
     justify-content: center;
     padding-top: 50px;
 }
-.timer-icon{
+
+.timer-icon {
     height: 30px;
 }
-#countdown{
+
+#countdown {
     font-size: 25px;
 }
-.wrapper > h2 {
+
+.wrapper>h2 {
     display: flex;
     justify-content: flex-end;
     position: relative;
@@ -26,6 +29,7 @@
     margin-bottom: auto;
     height: 100%;
     margin-right: 15rem;
+    pointer-events: none;
 }
 
 .wrapper {
@@ -51,6 +55,7 @@
     background-color: #3498db;
     border-radius: 5px;
 }
+
 .square0 {
     width: 75px;
     height: 75px;
@@ -88,18 +93,43 @@
     box-sizing: border-box;
 }
 
-#square1{
+#square1 {
     display: none;
 }
-#square2{
+
+#square2 {
     display: none;
 }
-#square3{
+
+#square3 {
     display: none;
 }
-#square4{
+
+#square4 {
     display: none;
 }
-#square5{
+
+#square5 {
     display: none;
+}
+
+#gameContainer {
+    display: none;
+    pointer-events: none;
+}
+
+.startButtons {
+    font-size: 40px;
+    padding: 1.5rem;
+    border: 0;
+    font-weight: bold;
+    width: 200px;
+    cursor: pointer;
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: space-evenly;
+    max-width: 100%;
+    margin-top: 150px;
 }

@@ -11,42 +11,45 @@
 </head>
 
 <body>
-    <div class="buttonsContainer">
+    <div class="buttonsContainer" id="btnContainer">
         <button class="startButtons" id="inviteBtn">INVITE</button>
         <p id="inviteCodeDisplay"></p>
         <button class="startButtons" id="playBtn">PLAY</button>
     </div>
-    <div id="timer">
-        <img src="timer.png" class="timer-icon">
-        <span id="countdown">60</span>
-    </div>
 
-    <div class="titles">
-        <h2>CORRECT WORDS:</h2>
-        <h2>SCORES:</h2>
-    </div>
-    <button id="trigger">Show Square</button>
-    <div class="wrapper">
-        <div class="grid">
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-
-            <div class="square" id="square1"></div>
-            <div class="square" id="square2"></div>
-            <div class="square" id="square3"></div>
-            <div class="square" id="square4"></div>
-            <div class="square" id="square5"></div>
+    <div id="gameContainer">
+        <div id="timer">
+            <img src="timer.png" class="timer-icon">
+            <span id="countdown">60</span>
         </div>
-        <h2>Player 1:</h2>
-        <h2>Player 2:</h2>
-    </div>
 
-    <div class="inputboxcontainer">
-        <input id="inputbox" placeholder="Enter word here" type="text">
-        <button>Submit</button>
+        <div class="titles">
+            <h2>CORRECT WORDS:</h2>
+            <h2>SCORES:</h2>
+        </div>
+        <button id="trigger">Show Square</button>
+        <div class="wrapper">
+            <div class="grid">
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+
+                <div class="square" id="square1"></div>
+                <div class="square" id="square2"></div>
+                <div class="square" id="square3"></div>
+                <div class="square" id="square4"></div>
+                <div class="square" id="square5"></div>
+            </div>
+            <h2>Player 1:</h2>
+            <h2>Player 2:</h2>
+        </div>
+
+        <div class="inputboxcontainer">
+            <input id="inputbox" placeholder="Enter word here" type="text">
+            <button>Submit</button>
+        </div>
     </div>
 </body>
 

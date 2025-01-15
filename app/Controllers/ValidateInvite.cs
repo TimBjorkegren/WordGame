@@ -63,7 +63,7 @@ namespace app.Controllers
             {
                 if (CheckIfPlayer2Ready(lobbyId))
                 {
-                    await Response.WriteAsync("event: gameStarted\n");
+                    await Response.WriteAsync("event: gameStarted\ndata: \n\n");
                     Console.WriteLine("Finished");
                     break;
                 }

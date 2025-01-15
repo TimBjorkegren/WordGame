@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+function startTimer() {
     let countDownTime = 60;
     const countDownElement = document.getElementById('countdown');
     countDownElement.textContent = countDownTime;
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
             countDownElement.textContent = 'Time is up!';
         }
     }, 1000);
-});
+};
 
 document.getElementById("inviteBtn").addEventListener("click", function () {
     fetch('http://127.0.0.1:5000/generate-invite', {
@@ -88,10 +88,12 @@ function startLobby(lobbyId) {
 
     eventSource.addEventListener("gameStarted", (event) => {
         startGame(eventSource);
+
     })
 
     eventSource.onerror = (event) => {
-        console.log(event);
+        console.error("Error occurred:", event);
+        console.log("ReadyState:", eventSource.readyState);
         eventSource.close();
     };
 
@@ -107,6 +109,13 @@ function startLobby(lobbyId) {
 function startGame(eventSource) {
     if (eventSource) {
         eventSource.close();
+        var gameContainer = document.getElementById("gameContainer");
+        gameContainer.style.display = "block";
+        gameContainer.style.pointerEvents = "auto";
+        var buttonsContainer = document.getElementById("btnContainer");
+        buttonsContainer.style.display = "none";
+        buttonsContainer.style.pointerEvents = "none";
+        startTimer();
         console.log("disconnecting")
     }
 }
