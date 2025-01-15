@@ -44,6 +44,31 @@ public class Program
             }
         });
 
+        app.MapPost("/api/word/validate", async (WordService wordService, HttpContext httpContext) =>
+        {
+            try
+            {
+                // Parse the incoming JSON request
+                var request = await httpContext.Request.ReadFromJsonAsync<WordRequest>();
+                Console.WriteLine($"Received word: {request?.Word}");
+
+                if (request == null || string.IsNullOrEmpty(request.Word))
+                {
+                    return Results.BadRequest(new { isValid = false, message = "Invalid word input." });
+                }
+
+                 // Validate the word using the WordService
+                bool isValid = wordService.ValidateWord(request.Word);
+
+                return Results.Ok(new { isValid });
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(new { error = ex.Message });
+            }
+        });
+
+
         // Start the application
         app.Run();
     }
