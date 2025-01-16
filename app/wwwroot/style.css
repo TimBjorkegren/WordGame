@@ -150,3 +150,24 @@
     opacity: 1;
     visibility: visible;
   }
+
+  #gameContainer {
+    display: none;
+    pointer-events: none;
+}
+
+.startButtons {
+    font-size: 40px;
+    padding: 1.5rem;
+    border: 0;
+    font-weight: bold;
+    width: 200px;
+    cursor: pointer;
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: space-evenly;
+    max-width: 100%;
+    margin-top: 150px;
+}

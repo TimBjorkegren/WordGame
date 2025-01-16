@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+function startTimer() {
     let countDownTime = 60;
     const countDownElement = document.getElementById('countdown');
     const inputBox = document.getElementById('inputbox');
@@ -55,6 +55,92 @@ document.addEventListener('DOMContentLoaded', function () {
             submitButton.style.display = 'none';
         }
     }, 1000);
+    };
+    document.getElementById("inviteBtn").addEventListener("click", function () {
+        fetch('http://localhost:5000/generate-invite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(data => {
+                startLobby(data.invite_code);
+                document.getElementById("inviteCodeDisplay").innerText = `Your invite code is: ${data.invite_code}, Your cookie is: ${data.client_id}`;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+
+    document.getElementById("playBtn").addEventListener("click", () => {
+        const inviteCode = prompt("Enter Invite Code");
+    
+        if (inviteCode) {
+            fetch("http://localhost:5000/api/validateinvite/validate-invite", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ inviteCode }),
+                credentials: 'include'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else if (response.status === 404) {
+                        throw new Error("Invite code does not match.");
+                    }
+                })
+                .then(data => {
+                    alert(data.message);
+                    startLobby(inviteCode);
+                })
+    
+                .catch(error => {
+                    alert(error.message);
+                });
+        } else {
+            alert("You must enter an invite code!");
+        }
+    });
+
+    function startLobby(lobbyId) {
+        const eventSource = new EventSource(`http://localhost:5000/api/ValidateInvite/gamestatus/${lobbyId}`);
+    
+        eventSource.addEventListener("gameStarted", (event) => {
+            startGame(eventSource);
+    
+        })
+    
+        eventSource.onerror = (event) => {
+            console.error("Error occurred:", event);
+            console.log("ReadyState:", eventSource.readyState);
+            eventSource.close();
+        };
+    
+        eventSource.onopen = () => {
+            console.log('Connected to the SSE endpoint for lobby' + lobbyId);
+        };
+    
+        eventSource.onclose = () => {
+            console.log('Disconnected from the SSE endpoint for lobby' + lobbyId);
+        };
+    };
+    
+    function startGame(eventSource) {
+        if (eventSource) {
+            eventSource.close();
+            var gameContainer = document.getElementById("gameContainer");
+            gameContainer.style.display = "block";
+            gameContainer.style.pointerEvents = "auto";
+            var buttonsContainer = document.getElementById("btnContainer");
+            buttonsContainer.style.display = "none";
+            buttonsContainer.style.pointerEvents = "none";
+            startTimer();
+            console.log("disconnecting")
+
 
     async function fetchRandomWord() {
         try {
@@ -206,4 +292,5 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 1000);
         }
     }
-});
+    }
+}

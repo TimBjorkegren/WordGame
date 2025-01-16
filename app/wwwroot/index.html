@@ -10,10 +10,18 @@
 </head>
 
 <body>
-    <div id="timer">
-        <img src="timer.png" class="timer-icon">
-        <span id="countdown">60</span>
+    <div class="buttonsContainer" id="btnContainer">
+        <button class="startButtons" id="inviteBtn">INVITE</button>
+        <p id="inviteCodeDisplay"></p>
+        <button class="startButtons" id="playBtn">PLAY</button>
     </div>
+
+    <div id="gameContainer">
+        <div id="timer">
+            <img src="timer.png" class="timer-icon">
+            <span id="countdown">60</span>
+        </div>
+    
 
     <div class="titles">
         <h2>CORRECT WORDS:</h2>
@@ -48,6 +56,7 @@
         <input id="inputbox" placeholder="Enter word here" type="text">
         <button>Submit</button>
     </div>
+</div>
 </body>
 
 </html>

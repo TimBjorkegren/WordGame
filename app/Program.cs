@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using System.Security.Cryptography;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 
 using app;
 
@@ -19,15 +20,47 @@ public class Program
             {
                 policy.AllowAnyOrigin()  
                     .AllowAnyHeader()  
-                    .AllowAnyMethod(); 
+                    .AllowAnyMethod();
             });
         });
 
         builder.Services.AddSingleton<WordService>(); 
+        // Lägg till controllers
+        builder.Services.AddControllers();
 
         var app = builder.Build();
         // Using CORS because frontend and backend are using different ports
         app.UseCors("AllowAll");
+
+        app.Use(
+            async (context, next) =>
+            {
+                // Kontrollera om cookien "ClientId" redan finns
+                if (!context.Request.Cookies.ContainsKey("ClientId"))
+                {
+                    // Om cookien inte finns, generera en ny och sätt den
+                    string clientId = GenerateUniqueClientId();
+                    context.Response.Cookies.Append(
+                        "ClientId",
+                        clientId,
+                        new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = false,
+                            SameSite = SameSiteMode.None,
+                            Expires = DateTimeOffset.UtcNow.AddDays(30), // Sätt 30 dagars utgångstid
+                        }
+                    );
+
+                    Console.WriteLine($"Generated new Client ID: {clientId}");
+                }
+
+                await next();
+            }
+        );
+
+        app.UseRouting();
+        app.MapControllers();
 
         BakeCookie();
 
@@ -73,13 +106,15 @@ public class Program
         app.Run();
     }
 
+
+    // Might not need
     public static void BakeCookie()
     {
         string clientId = GenerateUniqueClientId();
         Console.WriteLine($"Generated Client ID: {clientId}");
     }
 
-    private static string GenerateUniqueClientId()
+    public static string GenerateUniqueClientId()
     {
         var rng = RandomNumberGenerator.Create();
         var id = new byte[16];
