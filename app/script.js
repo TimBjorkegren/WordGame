@@ -29,23 +29,23 @@ document.addEventListener('DOMContentLoaded', function () {
         countDownElement.textContent = countDownTime;
 
         if (countDownTime === 50) {
-            squares[5].style.display = 'block';
+            squares[5].style.display = 'flex';
             squareVisibility[5] = true;
         }
         if (countDownTime === 40) {
-            squares[6].style.display = 'block';
+            squares[6].style.display = 'flex';
             squareVisibility[6] = true;
         }
         if (countDownTime === 30) {
-            squares[7].style.display = 'block';
+            squares[7].style.display = 'flex';
             squareVisibility[7] = true;
         }
         if (countDownTime === 20) {
-            squares[8].style.display = 'block';
+            squares[8].style.display = 'flex';
             squareVisibility[8] = true;
         }
         if (countDownTime === 10) {
-            squares[9].style.display = 'block';
+            squares[9].style.display = 'flex';
             squareVisibility[9] = true;
         }
         if (countDownTime <= 0) {
@@ -162,28 +162,46 @@ document.addEventListener('DOMContentLoaded', function () {
             return false;
         }
     }
-
+    inputBox.addEventListener('keydown', async (event) => {
+        if (event.key === 'Enter') {
+            await submitWord();
+        }
+    });
+    
+    // Add an event listener for the submit button click
     submitButton.addEventListener('click', async () => {
+        await submitWord();
+    });
+    
+    // Define the common function for word submission
+    async function submitWord() {
         const inputWord = inputBox.value.trim();
         if (!inputWord) {
             alert('Please enter a word!');
             return;
         }
-
+    
         if (!isWordValid(inputWord)) {
             alert('Invalid word! You can only use the letters in the visible squares.');
             return;
         }
-
+    
         console.log('Sending word:', inputWord);
-
+        const correctContainer = document.getElementById('correct-container');
+        const incorrectContainer = document.getElementById('incorrect-container');
         const isValid = await validateWordWithBackend(inputWord);
         if (isValid) {
             player1Score++;
-            alert(`Correct! Player 1 Score: ${player1Score}`);
+            correctContainer.classList.add('show');
+            setTimeout(() => {
+                correctContainer.classList.remove('show');
+            }, 1000);
             inputBox.value = '';
         } else {
-            alert('Incorrect word!');
+            incorrectContainer.classList.add('show');
+            setTimeout(() => {
+                incorrectContainer.classList.remove('show');
+            }, 1000);
         }
-    });
+    }
 });

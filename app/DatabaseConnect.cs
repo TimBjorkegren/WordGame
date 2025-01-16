@@ -7,7 +7,7 @@ public class DatabaseConnect
 
     public DatabaseConnect()
     {
-        _connectionString = "Host=localhost;Username=postgres;Password=7942;Database=postgres";
+        _connectionString = "Host=localhost;Username=postgres;Password=budweiser99;Database=postgres";
         
     }
 
