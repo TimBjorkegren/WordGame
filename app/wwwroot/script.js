@@ -1,28 +1,29 @@
+const inputBox = document.getElementById('inputbox');
+const submitButton = document.querySelector('.inputboxcontainer button');
+let scrambledWordArray = [];
+let wordFetched = false;
+let player1Score = 0;
+
+const squares = [
+    ...document.getElementsByClassName('square'),
+    document.getElementById('square1'),
+    document.getElementById('square2'),
+    document.getElementById('square3'),
+    document.getElementById('square4'),
+    document.getElementById('square5')
+];
+
+const squareVisibility = Array(squares.length).fill(false);
+squareVisibility[0] = true;
+squareVisibility[1] = true;
+squareVisibility[2] = true;
+squareVisibility[3] = true;
+squareVisibility[4] = true;
+
 function startTimer() {
     let countDownTime = 60;
     const countDownElement = document.getElementById('countdown');
-    const inputBox = document.getElementById('inputbox');
-    const submitButton = document.querySelector('.inputboxcontainer button');
-    let scrambledWordArray = [];
-    let wordFetched = false;
-    let player1Score = 0;
     countDownElement.textContent = countDownTime;
-
-    const squares = [
-        ...document.getElementsByClassName('square'),
-        document.getElementById('square1'),
-        document.getElementById('square2'),
-        document.getElementById('square3'),
-        document.getElementById('square4'),
-        document.getElementById('square5')
-    ];
-
-    const squareVisibility = Array(squares.length).fill(false);
-    squareVisibility[0] = true;
-    squareVisibility[1] = true;
-    squareVisibility[2] = true;
-    squareVisibility[3] = true;
-    squareVisibility[4] = true;
 
     const interval = setInterval(function () {
         countDownTime--;
