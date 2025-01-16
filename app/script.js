@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (countDownTime <= 0) {
             clearInterval(interval);
             countDownElement.textContent = 'Time is up!';
+            inputbox.style.display = 'none';
+            submitButton.style.display = 'none';
         }
     }, 1000);
 
