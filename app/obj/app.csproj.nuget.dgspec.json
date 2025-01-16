@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj": {}
+    "C:\\Users\\timbj\\repos\\wordgame\\app\\app.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj": {
+    "C:\\Users\\timbj\\repos\\wordgame\\app\\app.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj",
+        "projectUniqueName": "C:\\Users\\timbj\\repos\\wordgame\\app\\app.csproj",
         "projectName": "app",
-        "projectPath": "C:\\Users\\maste\\repos\\WordGame\\app\\app.csproj",
-        "packagesPath": "C:\\Users\\maste\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maste\\repos\\WordGame\\app\\obj\\",
+        "projectPath": "C:\\Users\\timbj\\repos\\wordgame\\app\\app.csproj",
+        "packagesPath": "C:\\Users\\timbj\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\timbj\\repos\\wordgame\\app\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\maste\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\timbj\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"

@@ -18,9 +18,10 @@ public class Program
         {
             options.AddPolicy("AllowAll", policy =>
             {
-                policy.AllowAnyOrigin()  
-                    .AllowAnyHeader()  
-                    .AllowAnyMethod();
+                policy.WithOrigins("http://127.0.0.1:5500")  // Allow only this origin
+                .AllowAnyHeader()                        // Allow any header
+                .AllowAnyMethod()                        // Allow any method (GET, POST, etc.)
+                .AllowCredentials();                     
             });
         });
 
